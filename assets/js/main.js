@@ -79,6 +79,30 @@
     }
   }
 
+  /* --- Contact form -> mailto --- */
+  var cf = document.getElementById('contactForm');
+  if (cf) {
+    cf.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var g = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+      var name = g('name'), email = g('email'), phone = g('phone'), topic = g('topic'), msg = g('message');
+      if (!name || !email) {
+        var note = document.getElementById('formNote');
+        if (note) { note.textContent = 'Please add your name and email so we can reply.'; note.style.color = '#e06a4f'; }
+        return;
+      }
+      var subject = 'Taylormade Title — ' + (topic || 'Inquiry') + ' from ' + name;
+      var body =
+        'Name: ' + name + '\n' +
+        'Email: ' + email + '\n' +
+        'Phone: ' + phone + '\n' +
+        'Topic: ' + topic + '\n\n' +
+        'Details:\n' + msg + '\n';
+      window.location.href = 'mailto:orders@taylormadetitle.com?subject=' +
+        encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    });
+  }
+
   /* --- Current year --- */
   var yr = document.getElementById('year');
   if (yr) yr.textContent = new Date().getFullYear();
